@@ -2,7 +2,24 @@
     padding-top: 50px;
     padding-bottom: 20px;
     background-color: #d4d6db;
-    color: #595b60
+    color: #595b60;
+    font-family: "Comic Sans MS", cursive, sans-serif
+}
+
+h1 {
+    font-family: "Comic Sans MS", cursive, sans-serif
+}
+
+h2 {
+    font-family: "Comic Sans MS", cursiv
+}
+
+h3{
+     font-family: "Comic Sans MS", cursive, sans-serif
+}
+
+h4{
+    font-family: "Comic Sans MS", cursive, sans-serif
 }
 
 /* Set padding to keep content from hitting the edges */
