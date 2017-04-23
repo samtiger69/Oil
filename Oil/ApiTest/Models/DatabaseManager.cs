@@ -93,16 +93,6 @@ namespace ApiTest.Models
                 {
                     while (await reader.ReadAsync())
                     {
-
-                        var v1 = reader["HardwareId"].ToString();
-                        var v2 = reader["HardwareName"].ToString();
-                        var v3 = reader["HardwareBranch"].ToString();
-                        var v4 = reader["CountryISO"].ToString();
-                        var v5 = reader["City"].ToString();
-                        var v6 = reader["FryerNum"].ToString();
-                        var v7 = reader["Quality"].ToString();
-                        var v8 = Convert.ToDateTime(reader["DateTimeStamp"]);
-
                         response.Data.Add(new Record
                         {
                             HardwareId = reader["HardwareId"].ToString(),

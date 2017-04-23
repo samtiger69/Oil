@@ -86,7 +86,11 @@ namespace ApiTest.Controllers
         public async Task<BaseResponse<List<Record>>> GetRecords([FromBody] RequestRecords request)
         {
             var db = new DatabaseManager();
-            return await db.GetRecords(request.Id, request.Name, request.Country, request.City, request.Branch, request.Fryer, request.Quality, request.From, request.To);
+            if(request != null)
+            {
+                return await db.GetRecords(request.Id, request.Name, request.Country, request.City, request.Branch, request.Fryer, request.Quality, request.From, request.To);
+            }
+            return await db.GetRecords();
         }
     }
 }
