@@ -5,16 +5,21 @@
 <div class="row">
     <div class="col-md-4">
         <h2>Api/Oil/Login</h2>
-        <p>Method Type: POST</p>
-        {
-            HardwareId : String, Required
-            Password   : String, Required
+        <h4>Method Type: POST</h4>
+        <h4>Parameters</h4>
+        {<br />
+        HardwareId : String, Required <br />
+        Password   : String, Required <br />
         }
+        <h4>Response</h4>
+        1 : Success <br />
+        0 : Wrong password <br />
+        -1: Wrong Hardware Id <br />
     </div>
     <div class="col-md-4">
         <h2>Api/Oil/AddRecord</h2>
-        <p>Method Type: GET</p>
-        <p>Parameters</p>
+        <h4>Method Type: GET</h4>
+        <h4>Parameters</h4>
         <ul>
             <li>
                 id (string)
@@ -38,10 +43,34 @@
                 time (string)
             </li>
         </ul>
+        <h4>Response</h4>
+        0 : wrong password <br />
+        1 : record added <br />
     </div>
     <div class="col-md-4">
-        <h2>Get Records</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
+        <h2>Api/Oil/GetRecords</h2>
+        <h4>Method Type: POST</h4>
+        <h4>Parameters</h4>
+        {<br />
+        Id : String, Optional <br />
+        Name   : String, Optional <br />
+        Country   : String, Optional <br />
+        City   : String, Optional <br />
+        Branch   : String, Optional <br />
+        Fryer   : String, Optional <br />
+        From   : String, Optional <br />
+        To   : String, Optional <br />
+        }
+        <h4>Respose</h4>
+        Array of: <br />
+        {<br />
+        HardwareId : String <br />
+        HardwareName : String <br />
+        HardwareBranch : String <br />
+        CountryISO : String <br />
+        City : String <br />
+        FryerNum : String <br />
+        DateTimeStamp : String <br />
+        }
     </div>
 </div>
