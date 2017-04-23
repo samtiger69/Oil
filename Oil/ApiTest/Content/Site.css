@@ -1,6 +1,6 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     background-color: #d4d6db;
     color: #595b60;
     font-family: "Comic Sans MS", cursive, sans-serif
@@ -21,6 +21,15 @@ h3{
 h4{
     font-family: "Comic Sans MS", cursive, sans-serif
 }
+
+.shadowed {
+    -moz-box-shadow: 0 0 3px #ccc;
+    -webkit-box-shadow: 0 0 13px #ccc;
+    box-shadow: 10px 10px 20px #000000;
+    border-radius: 25px;
+    margin-top:10px;
+}
+
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
