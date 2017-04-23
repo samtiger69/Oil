@@ -8,13 +8,14 @@
         <h4>Method Type: POST</h4>
         <h4>Parameters</h4>
         {<br />
-        HardwareId : String, Required <br />
+        Id : String, Required <br />
         Password   : String, Required <br />
         }
         <h4>Response</h4>
-        1 : Success <br />
-        0 : Wrong password <br />
-        -1: Wrong Hardware Id <br />
+        {<br />
+        ErrorMessage : string,<br />
+        Data: int (1 : Success , 0 : Wrong password , -1: Wrong Hardware Id )<br />
+        }
     </div>
     <div class="col-md-4">
         <h2>Api/Oil/AddRecord</h2>
@@ -22,30 +23,35 @@
         <h4>Parameters</h4>
         <ul>
             <li>
-                id (string)
+                id (string,required)
             </li>
             <li>
-                name (string)
+                name (string,required)
             </li>
             <li>
-                branch (string)
+                branch (string,required)
             </li>
             <li>
-                country (string)
+                country (string,required)
             </li>
             <li>
-                city (string)
+                city (string,required)
             </li>
             <li>
-                fryer (string)
+                fryer (string,required)
             </li>
             <li>
-                time (string)
+                quality (string,required)
+            </li>
+            <li>
+                time (string,required)
+            </li>
+            <li>
+                password (string,required)
             </li>
         </ul>
         <h4>Response</h4>
-        0 : wrong password <br />
-        1 : record added <br />
+        string specifies whether the record was added or not <br />
     </div>
     <div class="col-md-4">
         <h2>Api/Oil/GetRecords</h2>
@@ -62,8 +68,10 @@
         To   : String, Optional <br />
         }
         <h4>Respose</h4>
-        Array of: <br />
         {<br />
+        ErrorMessage: String,<br />
+        Array of: <br />
+        Data: {<br />
         HardwareId : String <br />
         HardwareName : String <br />
         HardwareBranch : String <br />
@@ -71,6 +79,6 @@
         City : String <br />
         FryerNum : String <br />
         DateTimeStamp : String <br />
-        }
+        }}
     </div>
 </div>
