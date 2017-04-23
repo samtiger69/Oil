@@ -14,5 +14,11 @@ namespace ApiTest.Controllers
         {
             return "hi";
         }
+
+        [HttpGet]
+        public string SayHello()
+        {
+            return "hello";
+        }
     }
 }
