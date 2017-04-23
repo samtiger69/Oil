@@ -11,14 +11,16 @@ namespace ApiTest.Models
     {
         private string _connectionString = @"Server=b8b4887c-cc91-4515-a21e-a75b0144e564.sqlserver.sequelizer.com;Database=dbb8b4887ccc914515a21ea75b0144e564;User ID=yisltebdgsewobue;Password=snE72bEZjZCbfHxECDGCzEeHWhYNZsyLNmXpMTR6V3p5PbbNtLydBtTVi6jTkZ8Z;";
 
-        public void AddRecord(Record record)
+        public async Task AddRecord(Record record)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                var command = new SqlCommand();
-                command.Connection = connection;
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.CommandText = "Insert_Record";
+                var command = new SqlCommand()
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "Insert_Record"
+                };
                 command.Parameters.Add(new SqlParameter("@HardwareId", record.HardwareId));
                 command.Parameters.Add(new SqlParameter("@HardwareName", record.HardwareName));
                 command.Parameters.Add(new SqlParameter("@CountryISO", record.CountryISO));
@@ -29,24 +31,26 @@ namespace ApiTest.Models
                 command.Parameters.Add(new SqlParameter("@Password", record.Password));
                 command.Parameters.Add(new SqlParameter("@DateTimeStamp", record.DateTimeStamp));
 
-                connection.Open();
-                command.ExecuteNonQuery();
+                await connection.OpenAsync();
+                await command.ExecuteNonQueryAsync();
             }
         }
 
-        public BaseResponse<int> Login(Login login)
+        public async Task<BaseResponse<int>> Login(Login login)
         {
             var response = new BaseResponse<int>();
             using (var connection = new SqlConnection(_connectionString))
             {
-                var command = new SqlCommand();
-                command.Connection = connection;
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.CommandText = "User_Login";
+                var command = new SqlCommand()
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "User_Login"
+                };
                 command.Parameters.Add(new SqlParameter("@Id", login.Id));
                 command.Parameters.Add(new SqlParameter("@Password", login.Password));
-                connection.Open();
-                response.Data = Convert.ToInt32(command.ExecuteScalar());
+                await connection.OpenAsync();
+                response.Data = Convert.ToInt32(await command.ExecuteScalarAsync());
                 switch (response.Data)
                 {
                     case 0:
@@ -62,8 +66,10 @@ namespace ApiTest.Models
 
         public async Task<BaseResponse<List<Record>>> GetRecords(string id = null, string name = null, string country = null, string city = null, string branch = null, string fryer = null, string quality = null, DateTime? from = null, DateTime? to = null)
         {
-            var response = new BaseResponse<List<Record>>();
-            response.Data = new List<Record>();
+            var response = new BaseResponse<List<Record>>()
+            {
+                Data = new List<Record>()
+            };
             using (var connection = new SqlConnection(_connectionString))
             {
                 var command = new SqlCommand()

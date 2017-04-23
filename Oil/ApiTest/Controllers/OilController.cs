@@ -12,7 +12,7 @@ namespace ApiTest.Controllers
     public class OilController : ApiController
     {
         [HttpGet]
-        public string AddRecord(string id, string name, string branch, string country, string city, string fryer, string quality, string time, string password)
+        public async Task<string> AddRecord(string id, string name, string branch, string country, string city, string fryer, string quality, string time, string password)
         {
             if (string.IsNullOrEmpty(id))
                 return "Hardware ID cannot be empty";
@@ -61,12 +61,12 @@ namespace ApiTest.Controllers
                 DateTimeStamp = newTime,
                 Password = password
             };
-            db.AddRecord(record);
+            await db.AddRecord(record);
             return "Record Added";
         }
 
         [HttpPost]
-        public BaseResponse<int> Login([FromBody]Login login)
+        public async Task<BaseResponse<int>> Login([FromBody]Login login)
         {
             if (login == null)
                 return new BaseResponse<int> { Data = 0, ErrorMessage = "ID and password are required" };
@@ -79,7 +79,7 @@ namespace ApiTest.Controllers
 
             var db = new DatabaseManager();
 
-            return db.Login(login);
+            return await db.Login(login);
         }
 
         [HttpPost]
