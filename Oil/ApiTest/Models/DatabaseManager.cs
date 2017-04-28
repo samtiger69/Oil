@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace ApiTest.Models
 {
     public class DatabaseManager
     {
-        private string _connectionString = @"Server=b8b4887c-cc91-4515-a21e-a75b0144e564.sqlserver.sequelizer.com;Database=dbb8b4887ccc914515a21ea75b0144e564;User ID=yisltebdgsewobue;Password=snE72bEZjZCbfHxECDGCzEeHWhYNZsyLNmXpMTR6V3p5PbbNtLydBtTVi6jTkZ8Z;";
+        private string _connectionString = ConfigurationManager.ConnectionStrings["OilApiDatabase"].ConnectionString;
 
         public async Task AddRecord(Record record)
         {
