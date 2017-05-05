@@ -65,6 +65,37 @@ namespace ApiTest.Models
             return response;
         }
 
+        public async Task<BaseResponse<int>> Register(Register register)
+        {
+            var response = new BaseResponse<int>();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var command = new SqlCommand()
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "User_Register"
+                };
+                command.Parameters.Add(new SqlParameter("@Id", register.Id));
+                command.Parameters.Add(new SqlParameter("@Name", register.Name));
+                command.Parameters.Add(new SqlParameter("@Country", register.Country));
+                command.Parameters.Add(new SqlParameter("@Branch", register.Branch));
+                command.Parameters.Add(new SqlParameter("@Password", register.Password));
+                await connection.OpenAsync();
+                response.Data = Convert.ToInt32(await command.ExecuteScalarAsync());
+                switch (response.Data)
+                {
+                    case 0:
+                        response.ErrorMessage = "This Hardware Already Exsits ";
+                        break;
+                    case 1:
+                        response.ErrorMessage = "Hardware Added";
+                        break;
+                }
+            }
+            return response;
+        }
+
         public async Task<BaseResponse<List<Record>>> GetRecords(string id = null, string name = null, string country = null, string city = null, string branch = null, string fryer = null, string quality = null, DateTime? from = null, DateTime? to = null)
         {
             var response = new BaseResponse<List<Record>>()

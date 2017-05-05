@@ -83,6 +83,32 @@ namespace ApiTest.Controllers
         }
 
         [HttpPost]
+        public async Task<BaseResponse<int>> Register([FromBody]Register register)
+        {
+            if (register == null)
+                return new BaseResponse<int> { Data = 0, ErrorMessage = "ID, Name, Country, Branch and Password are required" };
+
+            if (string.IsNullOrEmpty(register.Id))
+                return new BaseResponse<int> { Data = 0, ErrorMessage = "ID is required" };
+
+            if (string.IsNullOrEmpty(register.Name))
+                return new BaseResponse<int> { Data = 0, ErrorMessage = "Name is required" };
+
+            if (string.IsNullOrEmpty(register.Country))
+                return new BaseResponse<int> { Data = 0, ErrorMessage = "Country is required" };
+
+            if (string.IsNullOrEmpty(register.Branch))
+                return new BaseResponse<int> { Data = 0, ErrorMessage = "Branch is required" };
+
+            if (string.IsNullOrEmpty(register.Password))
+                return new BaseResponse<int> { Data = 0, ErrorMessage = "Password is required" };
+
+            var db = new DatabaseManager();
+
+            return await db.Register(register);
+        }
+
+        [HttpPost]
         public async Task<BaseResponse<List<Record>>> GetRecords([FromBody] RequestRecords request)
         {
             var db = new DatabaseManager();

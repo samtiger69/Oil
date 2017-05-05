@@ -138,6 +138,7 @@
     <Compile Include="Models\Hardware.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\Record.cs" />
+    <Compile Include="Models\Register.cs" />
     <Compile Include="Models\RequestRecords.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
