@@ -143,6 +143,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="backgrounds\egypt1.jpg" />
+    <Content Include="backgrounds\egypt2.jpg" />
+    <Content Include="backgrounds\egypt3.jpg" />
+    <Content Include="backgrounds\emirates1.jpg" />
+    <Content Include="backgrounds\emirates2.png" />
+    <Content Include="backgrounds\jordan1.jpg" />
+    <Content Include="backgrounds\jordan2.jpg" />
+    <Content Include="backgrounds\jordan3.jpg" />
+    <Content Include="backgrounds\palestine1.jpg" />
+    <Content Include="backgrounds\palestine2.jpg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -150,6 +160,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="backgrounds\Privacy_Policy.docx" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
