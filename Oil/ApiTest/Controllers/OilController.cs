@@ -35,20 +35,6 @@ namespace ApiTest.Controllers
 
             var db = new DatabaseManager();
 
-            var parts = time.Split('.');
-
-            var newTime = DateTime.UtcNow;
-
-            if (parts.Length >= 2)
-            {
-                var minutes = (Convert.ToInt16(parts[0]) * 60) + Convert.ToInt16(parts[1]);
-                newTime = newTime.AddMinutes(minutes);
-            }
-            else
-            {
-                newTime = newTime.AddMinutes(Convert.ToInt32(time) * 60);
-            }
-
             var record = new Record
             {
                 HardwareId = id,
@@ -58,7 +44,7 @@ namespace ApiTest.Controllers
                 City = city,
                 FryerNum = fryer,
                 Quality = quality,
-                DateTimeStamp = newTime,
+                DateTimeStamp = Convert.ToDateTime(time),
                 Password = password
             };
             await db.AddRecord(record);
