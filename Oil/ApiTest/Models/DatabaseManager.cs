@@ -12,7 +12,7 @@ namespace ApiTest.Models
     {
         private string _connectionString = ConfigurationManager.ConnectionStrings["OilApiDatabase"].ConnectionString;
 
-        public async Task AddRecord(Record record)
+        public async Task<BaseResponse<int>> AddRecord(Record record)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -33,7 +33,21 @@ namespace ApiTest.Models
                 command.Parameters.Add(new SqlParameter("@DateTimeStamp", record.DateTimeStamp));
 
                 await connection.OpenAsync();
-                await command.ExecuteNonQueryAsync();
+                var result = (int)(await command.ExecuteScalarAsync());
+                var response = new BaseResponse<int>()
+                {
+                    Data = result
+                };
+                switch (response.Data)
+                {
+                    case 0:
+                        response.ErrorMessage = "Record Added";
+                        break;
+                    default:
+                        response.ErrorMessage = "Wrong Password";
+                        break;
+                }
+                return response;
             }
         }
 

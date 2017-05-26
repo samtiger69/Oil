@@ -12,26 +12,26 @@ namespace ApiTest.Controllers
     public class OilController : ApiController
     {
         [HttpGet]
-        public async Task<string> AddRecord(string id, string name, string branch, string country, string city, string fryer, string quality, string time, string password)
+        public async Task<BaseResponse<int>> AddRecord(string id, string name, string branch, string country, string city, string fryer, string quality, string time, string password)
         {
             if (string.IsNullOrEmpty(id))
-                return "Hardware ID cannot be empty";
+                return new BaseResponse<int>() { ErrorMessage = "Hardware ID cannot be empty", Data = -1 };
             if (string.IsNullOrEmpty(name))
-                return "Hardware Name cannot be empty";
+                return new BaseResponse<int>() { ErrorMessage = "Hardware Name cannot be empty", Data = -1 };
             if (string.IsNullOrEmpty(branch))
-                return "Branch cannot be empty";
+                return new BaseResponse<int>() { ErrorMessage = "Branch Name cannot be empty", Data = -1 };
             if (string.IsNullOrEmpty(country))
-                return "Country cannot be empty";
+                return new BaseResponse<int>() { ErrorMessage = "Country cannot be empty", Data = -1 };
             if (string.IsNullOrEmpty(city))
-                return "City cannot be empty";
+                return new BaseResponse<int>() { ErrorMessage = "City cannot be empty", Data = -1 };
             if (string.IsNullOrEmpty(fryer))
-                return "Fryer cannot be empty";
+                return new BaseResponse<int>() { ErrorMessage = "Fryer cannot be empty", Data = -1 };
             if (string.IsNullOrEmpty(quality))
-                return "Quality cannot be empty";
+                return new BaseResponse<int>() { ErrorMessage = "Quality cannot be empty", Data = -1 };
             if (string.IsNullOrEmpty(time))
-                return "Time cannot be empty";
+                return new BaseResponse<int>() { ErrorMessage = "Time cannot be empty", Data = -1 };
             if (string.IsNullOrEmpty(password))
-                return "Password cannot be empty";
+                return new BaseResponse<int>() { ErrorMessage = "Password cannot be empty", Data = -1 };
 
             var db = new DatabaseManager();
 
@@ -47,8 +47,8 @@ namespace ApiTest.Controllers
                 DateTimeStamp = Convert.ToDateTime(time),
                 Password = password
             };
-            await db.AddRecord(record);
-            return "Record Added";
+            var response = await db.AddRecord(record);
+            return response;
         }
 
         [HttpPost]
