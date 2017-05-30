@@ -16,5 +16,6 @@ namespace ApiTest.Models
         public string Quality { get; set; }
         public string Password { get; set; }
         public DateTime DateTimeStamp { get; set; }
+        public string DateStamp { get; set; }
     }
 }

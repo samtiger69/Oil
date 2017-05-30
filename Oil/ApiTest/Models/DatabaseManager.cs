@@ -148,7 +148,8 @@ namespace ApiTest.Models
                             City = reader["City"].ToString(),
                             FryerNum = reader["FryerNum"].ToString(),
                             Quality = reader["Quality"].ToString(),
-                            DateTimeStamp = Convert.ToDateTime(reader["DateTimeStamp"])
+                            DateTimeStamp = Convert.ToDateTime(reader["DateTimeStamp"]),
+                            DateStamp = Convert.ToDateTime(reader["DateTimeStamp"]).ToShortDateString()
                         });
                     }
                 }
