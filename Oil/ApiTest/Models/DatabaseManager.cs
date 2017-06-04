@@ -31,6 +31,9 @@ namespace ApiTest.Models
                 command.Parameters.Add(new SqlParameter("@Quality", record.Quality));
                 command.Parameters.Add(new SqlParameter("@Password", record.Password));
                 command.Parameters.Add(new SqlParameter("@DateTimeStamp", record.DateTimeStamp));
+                command.Parameters.Add(new SqlParameter("@Capacity", record.Capacity));
+                command.Parameters.Add(new SqlParameter("@Cost", record.Cost));
+                command.Parameters.Add(new SqlParameter("@DailyAdded", record.DailyAdded));
 
                 await connection.OpenAsync();
                 var result = (int)(await command.ExecuteScalarAsync());
@@ -149,7 +152,11 @@ namespace ApiTest.Models
                             FryerNum = reader["FryerNum"].ToString(),
                             Quality = reader["Quality"].ToString(),
                             DateTimeStamp = Convert.ToDateTime(reader["DateTimeStamp"]),
-                            DateStamp = Convert.ToDateTime(reader["DateTimeStamp"]).ToShortDateString()
+                            DateStamp = Convert.ToDateTime(reader["DateTimeStamp"]).ToShortDateString(),
+                            Capacity = reader["Capacity"].ToString(),
+                            Cost = reader["Cost"].ToString(),
+                            DailyAdded = reader["DailyAdded"].ToString(),
+                            TimeStamp = Convert.ToDateTime(reader["DateTimeStamp"]).ToString("HH:mm")
                         });
                     }
                 }

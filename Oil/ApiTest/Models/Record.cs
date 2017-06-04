@@ -17,5 +17,9 @@ namespace ApiTest.Models
         public string Password { get; set; }
         public DateTime DateTimeStamp { get; set; }
         public string DateStamp { get; set; }
+        public string TimeStamp { get; set; }
+        public string Capacity { get; set; }
+        public string Cost { get; set; }
+        public string DailyAdded { get; set; }
     }
 }

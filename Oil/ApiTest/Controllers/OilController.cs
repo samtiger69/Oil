@@ -12,7 +12,7 @@ namespace ApiTest.Controllers
     public class OilController : ApiController
     {
         [HttpGet]
-        public async Task<BaseResponse<int>> AddRecord(string id, string name, string branch, string country, string city, string fryer, string quality, string time, string password)
+        public async Task<BaseResponse<int>> AddRecord(string id, string name, string branch, string country, string city, string fryer, string quality, string time, string password,string capacity, string cost, string dailyAdded)
         {
             if (string.IsNullOrEmpty(id))
                 return new BaseResponse<int>() { ErrorMessage = "Hardware ID cannot be empty", Data = -1 };
@@ -32,6 +32,12 @@ namespace ApiTest.Controllers
                 return new BaseResponse<int>() { ErrorMessage = "Time cannot be empty", Data = -1 };
             if (string.IsNullOrEmpty(password))
                 return new BaseResponse<int>() { ErrorMessage = "Password cannot be empty", Data = -1 };
+            if (string.IsNullOrEmpty(capacity))
+                return new BaseResponse<int>() { ErrorMessage = "Capacity cannot be empty", Data = -1 };
+            if (string.IsNullOrEmpty(cost))
+                return new BaseResponse<int>() { ErrorMessage = "Cost cannot be empty", Data = -1 };
+            if (string.IsNullOrEmpty(dailyAdded))
+                return new BaseResponse<int>() { ErrorMessage = "Daily added cannot be empty", Data = -1 };
 
             var db = new DatabaseManager();
 
@@ -45,7 +51,10 @@ namespace ApiTest.Controllers
                 FryerNum = fryer,
                 Quality = quality,
                 DateTimeStamp = Convert.ToDateTime(time),
-                Password = password
+                Password = password,
+                Capacity = capacity,
+                Cost = cost,
+                DailyAdded = dailyAdded
             };
             var response = await db.AddRecord(record);
             return response;
