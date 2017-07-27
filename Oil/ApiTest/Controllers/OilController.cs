@@ -113,5 +113,12 @@ namespace ApiTest.Controllers
             }
             return await db.GetRecords();
         }
+
+        [HttpGet]
+        public async Task<BaseResponse<List<Record>>> GetLastFryerRecordByHardware(int? hardwareId)
+        {
+            var db = new DatabaseManager();
+            return await db.GetLastFryerRecordByHardware(hardwareId);
+        }
     }
 }

@@ -163,5 +163,49 @@ namespace ApiTest.Models
             }
             return response;
         }
+
+        public async Task<BaseResponse<List<Record>>> GetLastFryerRecordByHardware(int? hardwareId)
+        {
+            var response = new BaseResponse<List<Record>>()
+            {
+                Data = new List<Record>()
+            };
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var command = new SqlCommand()
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "Fryer_Get_Last_Record"
+                };
+                if (hardwareId.HasValue)
+                    command.Parameters.AddWithValue("@HardwareId", hardwareId);
+
+                await connection.OpenAsync();
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        response.Data.Add(new Record
+                        {
+                            HardwareId = reader["HardwareId"].ToString(),
+                            HardwareName = reader["HardwareName"].ToString(),
+                            HardwareBranch = reader["HardwareBranch"].ToString(),
+                            CountryISO = reader["CountryISO"].ToString(),
+                            City = reader["City"].ToString(),
+                            FryerNum = reader["FryerNum"].ToString(),
+                            Quality = reader["Quality"].ToString(),
+                            DateTimeStamp = Convert.ToDateTime(reader["DateTimeStamp"]),
+                            DateStamp = Convert.ToDateTime(reader["DateTimeStamp"]).ToShortDateString(),
+                            Capacity = reader["Capacity"].ToString(),
+                            Cost = reader["Cost"].ToString(),
+                            DailyAdded = reader["DailyAdded"].ToString(),
+                            TimeStamp = Convert.ToDateTime(reader["DateTimeStamp"]).ToString("HH:mm")
+                        });
+                    }
+                }
+            }
+            return response;
+        }
     }
 }
