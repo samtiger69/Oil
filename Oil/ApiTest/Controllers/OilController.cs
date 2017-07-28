@@ -12,7 +12,7 @@ namespace ApiTest.Controllers
     public class OilController : ApiController
     {
         [HttpGet]
-        public async Task<BaseResponse<int>> AddRecord(string id, string name, string branch, string country, string city, string fryer, string quality, string time, string password,string capacity, string cost, string dailyAdded)
+        public async Task<BaseResponse<int>> AddRecord(string id, string name, string branch, string country, string city, string fryer, string quality, string time, string password,string capacity, string cost, string dailyAdded, string foodType, string oilType, string fryerBrand)
         {
             if (string.IsNullOrEmpty(id))
                 return new BaseResponse<int>() { ErrorMessage = "Hardware ID cannot be empty", Data = -1 };
@@ -38,6 +38,12 @@ namespace ApiTest.Controllers
                 return new BaseResponse<int>() { ErrorMessage = "Cost cannot be empty", Data = -1 };
             if (string.IsNullOrEmpty(dailyAdded))
                 return new BaseResponse<int>() { ErrorMessage = "Daily added cannot be empty", Data = -1 };
+            if (string.IsNullOrEmpty(foodType))
+                return new BaseResponse<int>() { ErrorMessage = "foodType added cannot be empty", Data = -1 };
+            if (string.IsNullOrEmpty(oilType))
+                return new BaseResponse<int>() { ErrorMessage = "oilType added cannot be empty", Data = -1 };
+            if (string.IsNullOrEmpty(fryerBrand))
+                return new BaseResponse<int>() { ErrorMessage = "fryerBrand added cannot be empty", Data = -1 };
 
             var db = new DatabaseManager();
 
@@ -54,14 +60,17 @@ namespace ApiTest.Controllers
                 Password = password,
                 Capacity = capacity,
                 Cost = cost,
-                DailyAdded = dailyAdded
+                DailyAdded = dailyAdded,
+                FoodType = foodType,
+                OilType = oilType,
+                FryerBrand = fryerBrand
             };
             var response = await db.AddRecord(record);
             return response;
         }
 
         [HttpPost]
-        public async Task<BaseResponse<int>> Login([FromBody]Login login)
+        public async Task<BaseResponse<int>> Login(Login login)
         {
             if (login == null)
                 return new BaseResponse<int> { Data = 0, ErrorMessage = "ID and password are required" };
@@ -78,7 +87,7 @@ namespace ApiTest.Controllers
         }
 
         [HttpPost]
-        public async Task<BaseResponse<int>> Register([FromBody]Register register)
+        public async Task<BaseResponse<int>> Register(Register register)
         {
             if (register == null)
                 return new BaseResponse<int> { Data = 0, ErrorMessage = "ID, Name, Country, Branch and Password are required" };
@@ -104,21 +113,21 @@ namespace ApiTest.Controllers
         }
 
         [HttpPost]
-        public async Task<BaseResponse<List<Record>>> GetRecords([FromBody] RequestRecords request)
+        public async Task<BaseResponse<List<Record>>> GetRecords(RequestRecords request)
         {
             var db = new DatabaseManager();
             if(request != null)
             {
-                return await db.GetRecords(request.Id, request.Name, request.Country, request.City, request.Branch, request.Fryer, request.Quality, request.From, request.To);
+                return await db.GetRecords(request);
             }
-            return await db.GetRecords();
+            return await db.GetRecords(new RequestRecords());
         }
 
-        [HttpGet]
-        public async Task<BaseResponse<List<Record>>> GetLastFryerRecordByHardware(int? hardwareId)
+        [HttpPost]
+        public async Task<BaseResponse<List<Record>>> GetLastFryerRecordByHardware(FryerGetRequest request)
         {
             var db = new DatabaseManager();
-            return await db.GetLastFryerRecordByHardware(hardwareId);
+            return await db.GetLastFryerRecordByHardware(request);
         }
     }
 }

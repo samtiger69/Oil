@@ -16,5 +16,8 @@ namespace ApiTest.Models
         public string Quality { get; set; }
         public DateTime? From { get; set; }
         public DateTime? To { get; set; }
+        public string FoodType { get; set; }
+        public string OilType { get; set; }
+        public string FryerBrand { get; set; }
     }
 }

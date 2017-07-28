@@ -21,5 +21,8 @@ namespace ApiTest.Models
         public string Capacity { get; set; }
         public string Cost { get; set; }
         public string DailyAdded { get; set; }
+        public string FoodType { get; set; }
+        public string OilType { get; set; }
+        public string FryerBrand { get; set; }
     }
 }

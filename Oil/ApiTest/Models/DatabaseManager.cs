@@ -34,7 +34,9 @@ namespace ApiTest.Models
                 command.Parameters.Add(new SqlParameter("@Capacity", record.Capacity));
                 command.Parameters.Add(new SqlParameter("@Cost", record.Cost));
                 command.Parameters.Add(new SqlParameter("@DailyAdded", record.DailyAdded));
-
+                command.Parameters.Add(new SqlParameter("@FoodType", record.FoodType));
+                command.Parameters.Add(new SqlParameter("@OilType", record.OilType));
+                command.Parameters.Add(new SqlParameter("@FryerBrand", record.FryerBrand));
                 await connection.OpenAsync();
                 var result = (int)(await command.ExecuteScalarAsync());
                 var response = new BaseResponse<int>()
@@ -113,7 +115,7 @@ namespace ApiTest.Models
             return response;
         }
 
-        public async Task<BaseResponse<List<Record>>> GetRecords(string id = null, string name = null, string country = null, string city = null, string branch = null, string fryer = null, string quality = null, DateTime? from = null, DateTime? to = null)
+        public async Task<BaseResponse<List<Record>>> GetRecords(RequestRecords request)
         {
             var response = new BaseResponse<List<Record>>()
             {
@@ -127,16 +129,18 @@ namespace ApiTest.Models
                     CommandType = System.Data.CommandType.StoredProcedure,
                     CommandText = "Get_Records"
                 };
-                command.Parameters.Add(new SqlParameter("@HardwareId", id));
-                command.Parameters.Add(new SqlParameter("@HardwareName", name));
-                command.Parameters.Add(new SqlParameter("@CountryISO", country));
-                command.Parameters.Add(new SqlParameter("@City", city));
-                command.Parameters.Add(new SqlParameter("@Branch", branch));
-                command.Parameters.Add(new SqlParameter("@FryerNum", fryer));
-                command.Parameters.Add(new SqlParameter("@Quality", quality));
-                command.Parameters.Add(new SqlParameter("@FromDate", from));
-                command.Parameters.Add(new SqlParameter("@ToDate", to));
-
+                command.Parameters.Add(new SqlParameter("@HardwareId", request.Id));
+                command.Parameters.Add(new SqlParameter("@HardwareName", request.Name));
+                command.Parameters.Add(new SqlParameter("@CountryISO", request.Country));
+                command.Parameters.Add(new SqlParameter("@City", request.City));
+                command.Parameters.Add(new SqlParameter("@Branch", request.Branch));
+                command.Parameters.Add(new SqlParameter("@FryerNum", request.Fryer));
+                command.Parameters.Add(new SqlParameter("@Quality", request.Quality));
+                command.Parameters.Add(new SqlParameter("@FromDate", request.From));
+                command.Parameters.Add(new SqlParameter("@ToDate", request.To));
+                command.Parameters.Add(new SqlParameter("@FoodType", request.FoodType));
+                command.Parameters.Add(new SqlParameter("@OilType", request.OilType));
+                command.Parameters.Add(new SqlParameter("@FryerBrand", request.FryerBrand));
                 await connection.OpenAsync();
                 using (var reader = await command.ExecuteReaderAsync())
                 {
@@ -156,7 +160,10 @@ namespace ApiTest.Models
                             Capacity = reader["Capacity"].ToString(),
                             Cost = reader["Cost"].ToString(),
                             DailyAdded = reader["DailyAdded"].ToString(),
-                            TimeStamp = Convert.ToDateTime(reader["DateTimeStamp"]).ToString("HH:mm")
+                            TimeStamp = Convert.ToDateTime(reader["DateTimeStamp"]).ToString("HH:mm"),
+                            FoodType = reader["FoodType"].ToString(),
+                            OilType = reader["OilType"].ToString(),
+                            FryerBrand = reader["FryerBrand"].ToString()
                         });
                     }
                 }
@@ -164,7 +171,7 @@ namespace ApiTest.Models
             return response;
         }
 
-        public async Task<BaseResponse<List<Record>>> GetLastFryerRecordByHardware(int? hardwareId)
+        public async Task<BaseResponse<List<Record>>> GetLastFryerRecordByHardware(FryerGetRequest request)
         {
             var response = new BaseResponse<List<Record>>()
             {
@@ -178,8 +185,8 @@ namespace ApiTest.Models
                     CommandType = System.Data.CommandType.StoredProcedure,
                     CommandText = "Fryer_Get_Last_Record"
                 };
-                if (hardwareId.HasValue)
-                    command.Parameters.AddWithValue("@HardwareId", hardwareId);
+                if (request.HardwareId.HasValue)
+                    command.Parameters.AddWithValue("@HardwareId", request.HardwareId);
 
                 await connection.OpenAsync();
                 using (var reader = await command.ExecuteReaderAsync())
@@ -200,7 +207,10 @@ namespace ApiTest.Models
                             Capacity = reader["Capacity"].ToString(),
                             Cost = reader["Cost"].ToString(),
                             DailyAdded = reader["DailyAdded"].ToString(),
-                            TimeStamp = Convert.ToDateTime(reader["DateTimeStamp"]).ToString("HH:mm")
+                            TimeStamp = Convert.ToDateTime(reader["DateTimeStamp"]).ToString("HH:mm"),
+                            FoodType = reader["FoodType"].ToString(),
+                            OilType = reader["OilType"].ToString(),
+                            FryerBrand = reader["FryerBrand"].ToString()
                         });
                     }
                 }
