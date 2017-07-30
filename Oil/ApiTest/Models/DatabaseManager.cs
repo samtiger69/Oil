@@ -180,7 +180,8 @@ namespace ApiTest.Models
                             TimeStamp = Convert.ToDateTime(reader["DateTimeStamp"]).ToString("HH:mm"),
                             FoodType = reader["FoodType"].ToString(),
                             OilType = reader["OilType"].ToString(),
-                            FryerBrand = reader["FryerBrand"].ToString()
+                            FryerBrand = reader["FryerBrand"].ToString(),
+                            OilCycle = Convert.ToInt32(reader["OilDuration"])
                         });
                     }
                 }

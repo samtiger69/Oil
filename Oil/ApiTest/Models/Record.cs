@@ -24,5 +24,6 @@ namespace ApiTest.Models
         public string FoodType { get; set; }
         public string OilType { get; set; }
         public string FryerBrand { get; set; }
+        public int OilCycle { get; set; }
     }
 }
