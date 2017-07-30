@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Http;
 
 namespace ApiTest.Models
 {
@@ -14,45 +15,61 @@ namespace ApiTest.Models
 
         public async Task<BaseResponse<int>> AddRecord(Record record)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            try
             {
-                var command = new SqlCommand()
+                using (var connection = new SqlConnection(_connectionString))
                 {
-                    Connection = connection,
-                    CommandType = System.Data.CommandType.StoredProcedure,
-                    CommandText = "Insert_Record"
-                };
-                command.Parameters.Add(new SqlParameter("@HardwareId", record.HardwareId));
-                command.Parameters.Add(new SqlParameter("@HardwareName", record.HardwareName));
-                command.Parameters.Add(new SqlParameter("@CountryISO", record.CountryISO));
-                command.Parameters.Add(new SqlParameter("@City", record.City));
-                command.Parameters.Add(new SqlParameter("@Branch", record.HardwareBranch));
-                command.Parameters.Add(new SqlParameter("@FryerNum", record.FryerNum));
-                command.Parameters.Add(new SqlParameter("@Quality", record.Quality));
-                command.Parameters.Add(new SqlParameter("@Password", record.Password));
-                command.Parameters.Add(new SqlParameter("@DateTimeStamp", record.DateTimeStamp));
-                command.Parameters.Add(new SqlParameter("@Capacity", record.Capacity));
-                command.Parameters.Add(new SqlParameter("@Cost", record.Cost));
-                command.Parameters.Add(new SqlParameter("@DailyAdded", record.DailyAdded));
-                command.Parameters.Add(new SqlParameter("@FoodType", record.FoodType));
-                command.Parameters.Add(new SqlParameter("@OilType", record.OilType));
-                command.Parameters.Add(new SqlParameter("@FryerBrand", record.FryerBrand));
-                await connection.OpenAsync();
-                var result = (int)(await command.ExecuteScalarAsync());
-                var response = new BaseResponse<int>()
-                {
-                    Data = result
-                };
-                switch (response.Data)
-                {
-                    case 0:
-                        response.ErrorMessage = "Record Added";
-                        break;
-                    default:
-                        response.ErrorMessage = "Wrong Password";
-                        break;
+                    var command = new SqlCommand()
+                    {
+                        Connection = connection,
+                        CommandType = System.Data.CommandType.StoredProcedure,
+                        CommandText = "Insert_Record"
+                    };
+                    command.Parameters.Add(new SqlParameter("@HardwareId", record.HardwareId));
+                    command.Parameters.Add(new SqlParameter("@HardwareName", record.HardwareName));
+                    command.Parameters.Add(new SqlParameter("@CountryISO", record.CountryISO));
+                    command.Parameters.Add(new SqlParameter("@City", record.City));
+                    command.Parameters.Add(new SqlParameter("@Branch", record.HardwareBranch));
+                    command.Parameters.Add(new SqlParameter("@FryerNum", record.FryerNum));
+                    command.Parameters.Add(new SqlParameter("@Quality", record.Quality));
+                    command.Parameters.Add(new SqlParameter("@Password", record.Password));
+                    command.Parameters.Add(new SqlParameter("@DateTimeStamp", record.DateTimeStamp));
+                    command.Parameters.Add(new SqlParameter("@Capacity", record.Capacity));
+                    command.Parameters.Add(new SqlParameter("@Cost", record.Cost));
+                    command.Parameters.Add(new SqlParameter("@DailyAdded", record.DailyAdded));
+                    command.Parameters.Add(new SqlParameter("@FoodType", record.FoodType));
+                    command.Parameters.Add(new SqlParameter("@OilType", record.OilType));
+                    command.Parameters.Add(new SqlParameter("@FryerBrand", record.FryerBrand));
+                    await connection.OpenAsync();
+                    var result = (int)(await command.ExecuteScalarAsync());
+                    var response = new BaseResponse<int>()
+                    {
+                        Data = result
+                    };
+
+                    if (record.Quality == "3")
+                    {
+                        // send a notification
+                    }
+
+                    switch (response.Data)
+                    {
+                        case 0:
+                            response.ErrorMessage = "Record Added";
+                            break;
+                        default:
+                            response.ErrorMessage = "Wrong Password";
+                            break;
+                    }
+                    return response;
                 }
-                return response;
+            }
+            catch (Exception e)
+            {
+                return new BaseResponse<int>
+                {
+                    ErrorMessage = e.Message
+                };
             }
         }
 
@@ -185,7 +202,7 @@ namespace ApiTest.Models
                     CommandType = System.Data.CommandType.StoredProcedure,
                     CommandText = "Fryer_Get_Last_Record"
                 };
-                if (request.HardwareId.HasValue)
+                if (string.IsNullOrEmpty(request.HardwareId))
                     command.Parameters.AddWithValue("@HardwareId", request.HardwareId);
 
                 await connection.OpenAsync();
@@ -212,6 +229,41 @@ namespace ApiTest.Models
                             OilType = reader["OilType"].ToString(),
                             FryerBrand = reader["FryerBrand"].ToString()
                         });
+                    }
+                }
+            }
+            return response;
+        }
+
+        [HttpPost]
+        public async Task<BaseResponse<QuantityCostResponse>> GetQuantityAndCost(QuantityAndCostRequest request)
+        {
+            var response = new BaseResponse<QuantityCostResponse>();
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var command = new SqlCommand()
+                {
+                    Connection = connection,
+                    CommandType = System.Data.CommandType.StoredProcedure,
+                    CommandText = "Oil_Quantity_Cost_Get"
+                };
+
+                command.Parameters.AddWithValue("@HardwareId", request.HardwareId);
+                command.Parameters.AddWithValue("@FryerId", request.FryerId);
+                command.Parameters.AddWithValue("@From", request.From);
+                command.Parameters.AddWithValue("@To", request.To);
+
+                await connection.OpenAsync();
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        response.Data = new QuantityCostResponse
+                        {
+                            Quantity = Convert.ToDecimal(reader["Quantity"]),
+                            Cost = Convert.ToDecimal(reader["Cost"])
+                        };
                     }
                 }
             }

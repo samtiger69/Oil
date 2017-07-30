@@ -5,8 +5,9 @@ using System.Web;
 
 namespace ApiTest.Models
 {
-    public class FryerGetRequest
+    public class QuantityCostResponse
     {
-        public string HardwareId { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal Cost { get; set; }
     }
 }

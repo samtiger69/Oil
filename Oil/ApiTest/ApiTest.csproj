@@ -138,6 +138,8 @@
     <Compile Include="Models\FryerGetRequest.cs" />
     <Compile Include="Models\Hardware.cs" />
     <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\QuantityAndCostRequest.cs" />
+    <Compile Include="Models\QuantityCostResponse.cs" />
     <Compile Include="Models\Record.cs" />
     <Compile Include="Models\Register.cs" />
     <Compile Include="Models\RequestRecords.cs" />

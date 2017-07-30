@@ -129,5 +129,13 @@ namespace ApiTest.Controllers
             var db = new DatabaseManager();
             return await db.GetLastFryerRecordByHardware(request);
         }
+
+        [HttpPost]
+        public async Task<BaseResponse<QuantityCostResponse>> GetQuantityAndCost(QuantityAndCostRequest request)
+        {
+            var db = new DatabaseManager();
+
+            return await db.GetQuantityAndCost(request);
+        }
     }
 }
