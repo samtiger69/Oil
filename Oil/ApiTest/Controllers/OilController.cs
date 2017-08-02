@@ -1,9 +1,6 @@
 ﻿using ApiTest.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -12,38 +9,38 @@ namespace ApiTest.Controllers
     public class OilController : ApiController
     {
         [HttpGet]
-        public async Task<BaseResponse<int>> AddRecord(string id, string name, string branch, string country, string city, string fryer, string quality, string time, string password,string capacity, string cost, string dailyAdded, string foodType, string oilType, string fryerBrand)
+        public async Task<BaseResponse<string>> AddRecord(string id, string name, string branch, string country, string city, string fryer, string quality, string time, string password,string capacity, string cost, string dailyAdded, string foodType, string oilType, string fryerBrand)
         {
             if (string.IsNullOrEmpty(id))
-                return new BaseResponse<int>() { ErrorMessage = "Hardware ID cannot be empty", Data = -1 };
+                return new BaseResponse<string>() { ErrorMessage = "Hardware ID cannot be empty", Data = "-1" };
             if (string.IsNullOrEmpty(name))
-                return new BaseResponse<int>() { ErrorMessage = "Hardware Name cannot be empty", Data = -1 };
+                return new BaseResponse<string>() { ErrorMessage = "Hardware Name cannot be empty", Data = "-1" };
             if (string.IsNullOrEmpty(branch))
-                return new BaseResponse<int>() { ErrorMessage = "Branch Name cannot be empty", Data = -1 };
+                return new BaseResponse<string>() { ErrorMessage = "Branch Name cannot be empty", Data = "-1" };
             if (string.IsNullOrEmpty(country))
-                return new BaseResponse<int>() { ErrorMessage = "Country cannot be empty", Data = -1 };
+                return new BaseResponse<string>() { ErrorMessage = "Country cannot be empty", Data = "-1" };
             if (string.IsNullOrEmpty(city))
-                return new BaseResponse<int>() { ErrorMessage = "City cannot be empty", Data = -1 };
+                return new BaseResponse<string>() { ErrorMessage = "City cannot be empty", Data = "-1" };
             if (string.IsNullOrEmpty(fryer))
-                return new BaseResponse<int>() { ErrorMessage = "Fryer cannot be empty", Data = -1 };
+                return new BaseResponse<string>() { ErrorMessage = "Fryer cannot be empty", Data = "-1" };
             if (string.IsNullOrEmpty(quality))
-                return new BaseResponse<int>() { ErrorMessage = "Quality cannot be empty", Data = -1 };
+                return new BaseResponse<string>() { ErrorMessage = "Quality cannot be empty", Data = "-1" };
             if (string.IsNullOrEmpty(time))
-                return new BaseResponse<int>() { ErrorMessage = "Time cannot be empty", Data = -1 };
+                return new BaseResponse<string>() { ErrorMessage = "Time cannot be empty", Data = "-1" };
             if (string.IsNullOrEmpty(password))
-                return new BaseResponse<int>() { ErrorMessage = "Password cannot be empty", Data = -1 };
+                return new BaseResponse<string>() { ErrorMessage = "Password cannot be empty", Data = "-1" };
             if (string.IsNullOrEmpty(capacity))
-                return new BaseResponse<int>() { ErrorMessage = "Capacity cannot be empty", Data = -1 };
+                return new BaseResponse<string>() { ErrorMessage = "Capacity cannot be empty", Data = "-1" };
             if (string.IsNullOrEmpty(cost))
-                return new BaseResponse<int>() { ErrorMessage = "Cost cannot be empty", Data = -1 };
+                return new BaseResponse<string>() { ErrorMessage = "Cost cannot be empty", Data = "-1" };
             if (string.IsNullOrEmpty(dailyAdded))
-                return new BaseResponse<int>() { ErrorMessage = "Daily added cannot be empty", Data = -1 };
+                return new BaseResponse<string>() { ErrorMessage = "Daily added cannot be empty", Data = "-1" };
             if (string.IsNullOrEmpty(foodType))
-                return new BaseResponse<int>() { ErrorMessage = "foodType added cannot be empty", Data = -1 };
+                return new BaseResponse<string>() { ErrorMessage = "foodType added cannot be empty", Data = "-1" };
             if (string.IsNullOrEmpty(oilType))
-                return new BaseResponse<int>() { ErrorMessage = "oilType added cannot be empty", Data = -1 };
+                return new BaseResponse<string>() { ErrorMessage = "oilType added cannot be empty", Data = "-1" };
             if (string.IsNullOrEmpty(fryerBrand))
-                return new BaseResponse<int>() { ErrorMessage = "fryerBrand added cannot be empty", Data = -1 };
+                return new BaseResponse<string>() { ErrorMessage = "fryerBrand added cannot be empty", Data = "-1" };
 
             var db = new DatabaseManager();
 
