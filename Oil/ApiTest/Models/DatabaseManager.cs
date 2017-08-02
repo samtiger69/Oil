@@ -86,6 +86,7 @@ namespace ApiTest.Models
                 };
                 command.Parameters.Add(new SqlParameter("@Id", login.Id));
                 command.Parameters.Add(new SqlParameter("@Password", login.Password));
+                command.Parameters.Add(new SqlParameter("@RegisterId", login.RegisterId));
                 await connection.OpenAsync();
                 response.Data = Convert.ToInt32(await command.ExecuteScalarAsync());
                 switch (response.Data)
@@ -117,6 +118,7 @@ namespace ApiTest.Models
                 command.Parameters.Add(new SqlParameter("@Country", register.Country));
                 command.Parameters.Add(new SqlParameter("@Branch", register.Branch));
                 command.Parameters.Add(new SqlParameter("@Password", register.Password));
+                command.Parameters.Add(new SqlParameter("@RegisterId", register.RegisterId));
                 await connection.OpenAsync();
                 response.Data = Convert.ToInt32(await command.ExecuteScalarAsync());
                 switch (response.Data)

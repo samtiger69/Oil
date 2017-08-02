@@ -107,6 +107,9 @@ namespace ApiTest.Controllers
             if (string.IsNullOrEmpty(register.Password))
                 return new BaseResponse<int> { Data = 0, ErrorMessage = "Password is required" };
 
+            if (string.IsNullOrEmpty(register.RegisterId))
+                return new BaseResponse<int> { Data = 0, ErrorMessage = "RegisterId is required" };
+
             var db = new DatabaseManager();
 
             return await db.Register(register);

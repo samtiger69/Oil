@@ -9,5 +9,6 @@ namespace ApiTest.Models
     {
         public string Id { get; set; }
         public string Password { get; set; }
+        public string RegisterId { get; set; }
     }
 }
